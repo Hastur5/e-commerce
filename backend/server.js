@@ -8,3 +8,5 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/productos", require("./routes/products.routes"));
 
 app.listen(port, () => console.log(`Server iniciando en el puerto ${port}`));
+
+// línea de prueba
