@@ -6,6 +6,10 @@ const productSchema = mongoose.Schema(
       type: String,
       required: [true, "Por favor escribe el producto que buscas"],
     },
+      price: {
+        type: Number,
+        required: [true, "Por favor digita el precio del producto"],
+    }
   },
   {
     timestamps: true,

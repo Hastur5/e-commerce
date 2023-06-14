@@ -10,7 +10,7 @@ connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/api/productos", require("./routes/products.routes"));
+app.use("/api/products", require("./routes/products.routes"));
 app.use(errorHandler);
 
 app.listen(port, () => console.log(`Server iniciando en el puerto ${port}`));
