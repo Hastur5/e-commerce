@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
 
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find();
+  const products = await Product.find({ user: req.user.id });
   res.status(200).json(products);
 });
 const setProducts = asyncHandler(async (req, res) => {
@@ -15,14 +15,23 @@ const setProducts = asyncHandler(async (req, res) => {
   const product = await Product.create({
     name: req.body.name,
     price: req.body.price,
+    user: req.user.id,
   });
   res.status(201).json(product);
 });
 const updateProducts = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
+  
   if (!product) {
     res.status(400);
     throw new Error("Producto no encontrado");
+  }
+
+  if (product.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error(
+      "Acceso No Autorizado, el prodcto no pertenece al usuario logeado"
+    );
   }
 
   const productModify = await Product.findByIdAndUpdate(
@@ -38,6 +47,13 @@ const deleteProducts = asyncHandler(async (req, res) => {
   if (!product) {
     res.status(400);
     throw new Error("Producto no encontrado");
+  }
+
+  if (product.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error(
+      "Acceso No Autorizado, el producto no pertenece al usuario logeado"
+    );
   }
 
   await Product.deleteOne();
