@@ -25,6 +25,8 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password: hashedPassword,
+    direccion,
+    telefono
   });
   //* Mandamos la respuesta de la funcion
   if (user) {
@@ -32,6 +34,8 @@ const registerUser = asyncHandler(async (req, res) => {
       _id: user.id,
       name: user.name,
       email: user.email,
+      direccion: user.direccion,
+      telefono: user.telefono
     });
   } else {
     res.status(400);
